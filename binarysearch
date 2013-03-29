@@ -1,0 +1,32 @@
+-module(binarysearch).
+-export([binsearch/2]).
+-import(lists, [nth/2]).
+
+-include_lib("eunit/include/eunit.hrl").
+
+%% Definitions of Variables
+% List = List of numbers
+% Key = searched value
+% LowerBound = Index of Left boundary
+% UpperBound = Index of right boundary
+% MidValue = Middle value in the list
+
+binsearch(List, Key) ->
+   binsearch(List, Key, 1, length(List)).
+
+binsearch(List, Key, LowerBound, UpperBound) ->
+   if
+      UpperBound < LowerBound -> 
+         io:format("This list is invalid.~n");  %Returns error if list is not sorted
+   true ->
+      MidValue = (LowerBound + UpperBound) div 2,
+      Item = nth(MidValue, List),
+      if    
+         Key < Item ->
+            binsearch(List, Key, LowerBound, MidValue-1);
+         Key > Item ->
+            binsearch(List, Key, MidValue+1, UpperBound);
+         true ->
+            io:format("The value is at position ~p.~n", [MidValue])
+       end
+   end.
